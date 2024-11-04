@@ -1,10 +1,8 @@
-// src/app/components/GrowthVisualization.tsx
 'use client';
 
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Chart from 'chart.js/auto';
-import { ChartConfiguration } from 'chart.js';
+import { Chart, ChartConfiguration } from 'chart.js';
 
 export function GrowthVisualization() {
   const chartRef = useRef<HTMLCanvasElement | null>(null);
@@ -75,7 +73,7 @@ export function GrowthVisualization() {
           x: {
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              borderWidth: 0
+              borderWidth: 0 // Ensure this property is recognized
             },
             ticks: {
               maxRotation: 0,
