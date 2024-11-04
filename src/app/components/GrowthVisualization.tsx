@@ -1,12 +1,13 @@
-// components/GrowthVisualization.tsx
+// src/app/components/GrowthVisualization.tsx
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import Chart from 'chart.js/auto';
-import { useEffect, useRef } from 'react';
+import { ChartConfiguration } from 'chart.js';
 
 export function GrowthVisualization() {
-  const chartRef = useRef<HTMLCanvasElement>(null);
+  const chartRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -14,10 +15,7 @@ export function GrowthVisualization() {
     const ctx = chartRef.current.getContext('2d');
     if (!ctx) return;
 
-    Chart.defaults.color = '#94A3B8'; // text color
-    Chart.defaults.font.family = 'Inter, system-ui, sans-serif';
-
-    const chart = new Chart(ctx, {
+    const chartConfig: ChartConfiguration = {
       type: 'line',
       data: {
         labels: ['2024 Q1', 'Q2', 'Q3', 'Q4', '2025 Q1'],
@@ -77,7 +75,7 @@ export function GrowthVisualization() {
           x: {
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              drawBorder: false,
+              borderWidth: 0
             },
             ticks: {
               maxRotation: 0,
@@ -89,7 +87,7 @@ export function GrowthVisualization() {
             position: 'left',
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              drawBorder: false,
+              borderWidth: 0
             },
             ticks: {
               callback: (value) => `${value.toLocaleString()} ราย`,
@@ -109,7 +107,9 @@ export function GrowthVisualization() {
           }
         }
       }
-    });
+    };
+
+    const chart = new Chart(ctx, chartConfig);
 
     return () => chart.destroy();
   }, []);
