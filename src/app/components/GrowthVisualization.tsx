@@ -74,7 +74,7 @@ export function GrowthVisualization() {
             type: 'category', // กำหนดชนิดของแกน x
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              borderWidth: 0
+              lineWidth: 0 // ใช้ lineWidth แทน borderWidth
             },
             ticks: {
               maxRotation: 0, // ตอนนี้ควรจะสามารถใช้งานได้ภายใต้ 'category'
@@ -86,7 +86,7 @@ export function GrowthVisualization() {
             position: 'left',
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              borderWidth: 0
+              lineWidth: 0 // ใช้ lineWidth แทน borderWidth
             },
             ticks: {
               callback: (value) => `${value.toLocaleString()} ราย`,
