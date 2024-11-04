@@ -30,7 +30,7 @@ export default function Hero() {
     return (
         <div className="relative min-h-screen overflow-hidden">
             {/* Neural Background with parallax effect */}
-            <motion.div 
+            <motion.div
                 className="absolute inset-0"
                 style={{ y, opacity }}
                 initial={{ opacity: 0 }}
@@ -41,7 +41,7 @@ export default function Hero() {
             </motion.div>
 
             {/* Gradient Overlay */}
-            <motion.div 
+            <motion.div
                 className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/30 to-slate-900/80"
                 style={{ opacity }}
             />
@@ -87,6 +87,17 @@ export default function Hero() {
                         </h1>
                     </motion.div>
 
+                    <motion.span
+                        initial={{ y: 30, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.4, duration: 0.7 }}
+                        className="block mt-2"
+                    >
+                        <span className="inline-block text-white/70 text-xl md:text-2xl font-light
+        [text-shadow:_0_0_15px_rgb(255_255_255_/_30%)]">
+                            Empowered by Seeder Development
+                        </span>
+                    </motion.span>
                     {/* Buttons */}
                     <motion.div
                         initial={{ y: 30, opacity: 0 }}

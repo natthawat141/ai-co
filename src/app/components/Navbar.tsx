@@ -18,8 +18,9 @@ export const Navbar = () => {
     const handleToggleMenu = () => setMenuOpen(!menuOpen);
 
     const navItems = [
-        { name: 'Docs', href: '/' },
-        { name: 'try Ai translation', href: '/' },
+        { name: 'Home', href: '/' },
+        { name: 'Try chat', href: '/chat/translate' },
+        { name: 'Try Ai translation', href: '/chat/' },
 
     ];
 

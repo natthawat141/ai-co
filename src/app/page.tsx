@@ -21,6 +21,9 @@ const Newsletter = dynamic(() => import('./components/Newsletter'), {
 const Footer = dynamic(() => import('./components/Footer'), {
   loading: () => <div className="min-h-[200px] bg-slate-900" />
 });
+const VisionStory = dynamic(() => import('./components/VisionStory'), {
+  loading: () => <div className="min-h-[200px] bg-slate-900" />
+});
 
 // Page component
 export default function HomePage() {
@@ -41,10 +44,18 @@ export default function HomePage() {
       </Suspense>
 
       <Suspense fallback={
+       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-indigo-950 animate-pulse" />
+      }>
+        <VisionStory />
+      </Suspense>
+
+      <Suspense fallback={
         <div className="min-h-[300px] bg-slate-900 animate-pulse" />
       }>
         <Newsletter />
       </Suspense>
+      
+
 
       <Suspense fallback={
         <div className="min-h-[200px] bg-slate-900 animate-pulse" />
