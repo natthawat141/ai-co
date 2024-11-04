@@ -71,17 +71,18 @@ export function GrowthVisualization() {
         },
         scales: {
           x: {
+            type: 'category', // กำหนดชนิดของแกน x
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
-              borderWidth: 0 // Ensure this property is recognized
+              borderWidth: 0
             },
             ticks: {
-              maxRotation: 0,
+              maxRotation: 0, // ตอนนี้ควรจะสามารถใช้งานได้ภายใต้ 'category'
               padding: 10,
             }
           },
           y: {
-            type: 'linear',
+            type: 'linear', // กำหนดชนิดของแกน y
             position: 'left',
             grid: {
               color: 'rgba(255, 255, 255, 0.1)',
