@@ -4,9 +4,9 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  MdTranslate, 
-  MdSwapHoriz, 
+import {
+  MdTranslate,
+  MdSwapHoriz,
   MdSend,
 } from 'react-icons/md';
 import Navbar from '../components/Navbar';
@@ -62,26 +62,26 @@ export default function ChatPage() {
 
       if (!response.ok) throw new Error(data.error);
 
-      setMessages(prev => prev.map((msg, idx) => 
-        idx === prev.length - 1 
+      setMessages(prev => prev.map((msg, idx) =>
+        idx === prev.length - 1
           ? {
-              text: inputText,
-              translation: data.translation,
-              timestamp: new Date(),
-              isLoading: false
-            }
+            text: inputText,
+            translation: data.translation,
+            timestamp: new Date(),
+            isLoading: false
+          }
           : msg
       ));
     } catch (error) {
       console.error('Translation error:', error);
-      setMessages(prev => prev.map((msg, idx) => 
-        idx === prev.length - 1 
+      setMessages(prev => prev.map((msg, idx) =>
+        idx === prev.length - 1
           ? {
-              text: inputText,
-              translation: 'เกิดข้อผิดพลาดในการแปล',
-              timestamp: new Date(),
-              isLoading: false
-            }
+            text: inputText,
+            translation: 'เกิดข้อผิดพลาดในการแปล',
+            timestamp: new Date(),
+            isLoading: false
+          }
           : msg
       ));
     }
@@ -98,7 +98,7 @@ export default function ChatPage() {
         <div className="fixed inset-0 z-0">
           <NeuralBackground />
         </div>
-        
+
         {/* Gradient Overlay */}
         <div className="fixed inset-0 bg-gradient-to-b from-transparent via-slate-900/80 to-slate-900 z-0" />
 
@@ -110,7 +110,7 @@ export default function ChatPage() {
               <div className="p-2 bg-blue-500/20 rounded-lg">
                 <MdTranslate className="w-6 h-6 text-blue-400" />
               </div>
-              <select 
+              <select
                 value={srcLang}
                 onChange={(e) => setSrcLang(e.target.value)}
                 className="bg-slate-700/50 backdrop-blur-sm text-white rounded-lg px-4 py-2 text-sm
@@ -119,7 +119,7 @@ export default function ChatPage() {
                 <option value="ไทย">ไทย</option>
                 <option value="อังกฤษ">อังกฤษ</option>
               </select>
-              <button 
+              <button
                 onClick={handleSwapLanguages}
                 className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors"
               >
@@ -157,7 +157,7 @@ export default function ChatPage() {
                         </span>
                       </div>
                     </div>
-                    
+
                     {msg.isLoading ? (
                       <div className="flex space-x-2 text-slate-400 ml-4">
                         <div className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" />
@@ -178,34 +178,38 @@ export default function ChatPage() {
           </div>
 
           {/* Input Area */}
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-b-2xl border border-t-0 border-slate-700/50 p-4">
-            <form onSubmit={handleSubmit} className="flex items-center space-x-4">
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-b-2xl border border-t-0 border-slate-700/50 p-2 sm:p-4">
+            <form onSubmit={handleSubmit} className="flex items-center gap-2 sm:gap-4">
               <input
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={`พิมพ์ข้อความภาษา${srcLang}...`}
-                className="flex-1 bg-slate-700/50 backdrop-blur-sm text-white rounded-lg px-4 py-3 
-                         placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500
-                         border border-slate-600/50"
+                className="flex-1 bg-slate-700/50 backdrop-blur-sm text-white rounded-lg 
+                px-3 py-2.5 sm:px-4 sm:py-3
+                placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500
+                border border-slate-600/50 text-sm sm:text-base"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !inputText.trim()}
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-lg 
-                         px-6 py-3 flex items-center space-x-2 disabled:opacity-50 
-                         disabled:cursor-not-allowed transition-colors"
+                px-4 py-2.5 sm:px-6 sm:py-3
+                flex items-center gap-1 sm:gap-2 disabled:opacity-50 
+                disabled:cursor-not-allowed transition-colors
+                whitespace-nowrap text-sm sm:text-base min-w-[80px] sm:min-w-[100px]
+                justify-center"
               >
-                <MdSend className="w-5 h-5" />
-                <span>ส่ง</span>
+                <MdSend className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">ส่ง</span>
               </button>
             </form>
           </div>
         </div>
-        <Footer/>
+       
       </div>
-    
+
     </>
   );
 }

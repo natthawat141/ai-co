@@ -95,7 +95,7 @@ export default function Hero() {
                     >
                         <span className="inline-block text-white/70 text-xl md:text-2xl font-light
         [text-shadow:_0_0_15px_rgb(255_255_255_/_30%)]">
-                            Empowered by Seeder Development
+                            Empowered by  Development
                         </span>
                     </motion.span>
                     {/* Buttons */}

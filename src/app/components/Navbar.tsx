@@ -15,14 +15,31 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            if (menuOpen && !target.closest('nav')) {
+                setMenuOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [menuOpen]);
+
     const handleToggleMenu = () => setMenuOpen(!menuOpen);
 
     const navItems = [
         { name: 'Home', href: '/' },
         { name: 'Try chat', href: '/chat/translate' },
-        { name: 'Try Ai translation', href: '/chat/' },
-
+        { name: 'Try AI translation', href: '/chat/' },
     ];
+
+    const menuVariants = {
+        initial: { opacity: 0, y: -20 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -20 }
+    };
 
     return (
         <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300
@@ -33,34 +50,41 @@ export const Navbar = () => {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/">
-                        <h1 className="font-bold text-xl md:text-2xl text-white
-              drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]
-              hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]
-              transition-all duration-300">
+                        <motion.h1 
+                            whileHover={{ scale: 1.05 }}
+                            className="font-bold text-xl md:text-2xl text-white
+                                     drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]
+                                     transition-all duration-300"
+                        >
                             Next Gen
-                        </h1>
+                        </motion.h1>
                     </Link>
 
                     {/* Desktop Menu */}
                     <div className="hidden md:flex items-center space-x-8">
                         {navItems.map((item, index) => (
-                            <Link
+                            <motion.div
                                 key={index}
-                                href={item.href}
-                                className="relative text-gray-300 hover:text-white transition-colors duration-300 px-2 py-1
-                         before:content-[''] before:absolute before:bottom-0 before:left-0 before:w-full before:h-[2px]
-                         before:bg-gradient-to-r before:from-blue-400 before:to-purple-400
-                         before:transform before:scale-x-0 before:origin-right before:transition-transform
-                         hover:before:scale-x-100 hover:before:origin-left"
+                                whileHover={{ y: -2 }}
+                                transition={{ type: "spring", stiffness: 300 }}
                             >
-                                {item.name}
-                            </Link>
+                                <Link
+                                    href={item.href}
+                                    className="relative text-gray-300 hover:text-white transition-colors duration-300 
+                                             px-3 py-2 rounded-lg hover:bg-white/10"
+                                >
+                                    {item.name}
+                                </Link>
+                            </motion.div>
                         ))}
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden w-10 h-10 flex items-center justify-center text-gray-300"
+                    <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        className="md:hidden w-10 h-10 flex items-center justify-center 
+                                 text-gray-300 hover:text-white rounded-lg hover:bg-white/10
+                                 transition-colors duration-200"
                         onClick={handleToggleMenu}
                         aria-label="Toggle menu"
                     >
@@ -80,44 +104,44 @@ export const Navbar = () => {
                                 }
                             />
                         </svg>
-                    </button>
+                    </motion.button>
                 </div>
 
                 {/* Mobile Menu */}
                 <AnimatePresence>
                     {menuOpen && (
                         <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
+                            variants={menuVariants}
+                            initial="initial"
+                            animate="animate"
+                            exit="exit"
                             transition={{ duration: 0.2 }}
-                            className="md:hidden overflow-hidden bg-gray-900/95 backdrop-blur-md"
+                            className="md:hidden overflow-hidden"
                         >
-                            <div className="px-4 py-6 space-y-4">
+                            <motion.div 
+                                className="px-4 py-3 mt-2 bg-gray-800/90 backdrop-blur-lg rounded-lg
+                                          border border-gray-700/50 shadow-xl"
+                            >
                                 {navItems.map((item, index) => (
                                     <motion.div
                                         key={index}
                                         initial={{ x: -20, opacity: 0 }}
                                         animate={{ x: 0, opacity: 1 }}
                                         transition={{ delay: index * 0.1 }}
+                                        className="py-1"
                                     >
                                         <Link
                                             href={item.href}
-                                            className="relative block text-gray-300 w-fit
-                               hover:text-white transition-colors duration-300 px-2 py-1
-                               before:content-[''] before:absolute before:bottom-0 before:left-0 
-                               before:w-full before:h-[2px]
-                               before:bg-gradient-to-r before:from-blue-400 before:to-purple-400
-                               before:transform before:scale-x-0 before:origin-right 
-                               before:transition-transform
-                               hover:before:scale-x-100 hover:before:origin-left"
+                                            className="block text-gray-300 w-full px-3 py-2 rounded-lg
+                                                     hover:bg-white/10 hover:text-white
+                                                     transition-all duration-200"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             {item.name}
                                         </Link>
                                     </motion.div>
                                 ))}
-                            </div>
+                            </motion.div>
                         </motion.div>
                     )}
                 </AnimatePresence>
