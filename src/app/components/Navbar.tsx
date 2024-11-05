@@ -62,6 +62,10 @@ export const Navbar = () => {
             name: language === 'th' ? 'ทดลองแปลภาษา' : 'Try AI translation',
             href: '/chat/' 
         },
+        { 
+            name: language === 'th' ? 'ภารกิจของเรา' : 'mission',
+            href: '/business/' 
+        },
     ];
 
     const menuVariants = {

@@ -19,3 +19,26 @@ html{
 .animate-glow {
   animation: glow 3s ease-in-out infinite;
 }
+@keyframes gradient-x {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 100%;
+  animation: gradient-x 15s ease infinite;
+}
+
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgb(148 163 184 / 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
