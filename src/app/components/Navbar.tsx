@@ -2,10 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MdTranslate } from 'react-icons/md';
 
 export const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [language, setLanguage] = useState('th');
+
+    // โหลดค่าภาษาจาก localStorage เมื่อ component mount
+    useEffect(() => {
+        const storedLanguage = localStorage.getItem('language') || 'th';
+        setLanguage(storedLanguage);
+    }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,7 +23,6 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close menu when clicking outside
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
@@ -27,12 +34,34 @@ export const Navbar = () => {
         return () => document.removeEventListener('click', handleClickOutside);
     }, [menuOpen]);
 
-    const handleToggleMenu = () => setMenuOpen(!menuOpen);
+    const handleToggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    // ปรับฟังก์ชัน toggleLanguage
+    const toggleLanguage = () => {
+        const newLanguage = language === 'th' ? 'en' : 'th';
+        // บันทึกค่าลง localStorage
+        localStorage.setItem('language', newLanguage);
+        // อัปเดต state
+        setLanguage(newLanguage);
+        // ส่ง custom event
+        window.dispatchEvent(new Event('languageChange'));
+    };
 
     const navItems = [
-        { name: 'Home', href: '/' },
-        { name: 'Try chat', href: '/chat/translate' },
-        { name: 'Try AI translation', href: '/chat/' },
+        { 
+            name: language === 'th' ? 'หน้าแรก' : 'Home',
+            href: '/' 
+        },
+        { 
+            name: language === 'th' ? 'ทดลองแชท' : 'Try chat',
+            href: '/chat/translate' 
+        },
+        { 
+            name: language === 'th' ? 'ทดลองแปลภาษา' : 'Try AI translation',
+            href: '/chat/' 
+        },
     ];
 
     const menuVariants = {
@@ -77,34 +106,63 @@ export const Navbar = () => {
                                 </Link>
                             </motion.div>
                         ))}
+                        
+                        {/* Language Toggle Button */}
+                        <motion.button
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={toggleLanguage}
+                            className="flex items-center space-x-2 px-3 py-2 rounded-lg
+                                     bg-white/10 text-gray-300 hover:text-white
+                                     transition-colors duration-300"
+                        >
+                            <MdTranslate className="w-5 h-5" />
+                            <span className="text-sm font-medium">
+                                {language === 'th' ? 'TH' : 'EN'}
+                            </span>
+                        </motion.button>
                     </div>
 
                     {/* Mobile Menu Button */}
-                    <motion.button
-                        whileTap={{ scale: 0.95 }}
-                        className="md:hidden w-10 h-10 flex items-center justify-center 
-                                 text-gray-300 hover:text-white rounded-lg hover:bg-white/10
-                                 transition-colors duration-200"
-                        onClick={handleToggleMenu}
-                        aria-label="Toggle menu"
-                    >
-                        <svg
-                            className="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                    <div className="md:hidden flex items-center space-x-4">
+                        {/* Language Toggle Button (Mobile) */}
+                        <motion.button
+                            whileTap={{ scale: 0.95 }}
+                            onClick={toggleLanguage}
+                            className="flex items-center justify-center w-10 h-10
+                                     rounded-lg bg-white/10 text-gray-300 hover:text-white
+                                     transition-colors duration-200"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d={menuOpen
-                                    ? "M6 18L18 6M6 6l12 12"
-                                    : "M4 6h16M4 12h16M4 18h16"
-                                }
-                            />
-                        </svg>
-                    </motion.button>
+                            <MdTranslate className="w-5 h-5" />
+                        </motion.button>
+
+                        {/* Menu Button */}
+                        <motion.button
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center justify-center w-10 h-10
+                                     text-gray-300 hover:text-white rounded-lg hover:bg-white/10
+                                     transition-colors duration-200"
+                            onClick={handleToggleMenu}
+                            aria-label="Toggle menu"
+                        >
+                            <svg
+                                className="w-6 h-6"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d={menuOpen
+                                        ? "M6 18L18 6M6 6l12 12"
+                                        : "M4 6h16M4 12h16M4 18h16"
+                                    }
+                                />
+                            </svg>
+                        </motion.button>
+                    </div>
                 </div>
 
                 {/* Mobile Menu */}
